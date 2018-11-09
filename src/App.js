@@ -1,26 +1,154 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled, { keyframes } from 'styled-components';
+import { Grommet, Box, Stack, Heading, Button, Text } from 'grommet';
+import Lines from './Lines';
+import { hpeDesign } from './theme';
+
+const scaleUpAnim = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+const ScaleUp = styled.span`
+  display: inline-block;
+  padding-right: 36px;
+  opacity: 0;
+  transform: scale(0);
+  animation:  ${scaleUpAnim} 0.75s ease-out;
+  animation-delay: ${({ delay }) => delay}s;
+  animation-fill-mode: forwards;
+  transform-origin: ${({ from }) => from};
+`;
+
+const dropOutAnim = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+`;
+
+const AnswerHolder = styled(Box)`
+  filter: drop-shadow(5px 5px 12px #1F2532);
+`; 
+
+const StyledButton = styled(Button)``; // Styled components can target
+const StyledHeading = styled(Heading)``; // Styled components can target
+
+
+const TextHolder = styled(Box)`
+  position: relative;
+  min-width: 100vw;
+  &.enlightened {
+    ${StyledHeading} {
+      animation:  ${dropOutAnim} 0.25s ease-out;
+      animation-fill-mode: forwards;
+      animation-delay: 0.25s;
+    }
+
+    ${StyledButton} {
+      animation:  ${dropOutAnim} 0.25s ease-out;
+      animation-fill-mode: forwards;
+    }
+  }
+`;
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clickedOnce: false,
+      enlightened: false,
+    }
+  }
   render() {
+    const wordArray = 'what is the meaning of life?'.split(' ');
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Grommet theme={hpeDesign}  style={{ minHeight: '100vh' }}>
+        <Box
+          flex
+          background={{ color: 'neutral-1' }}
+          style={{ position: 'relative',  minHeight: '100vh' }}
+          align="center"
+          justify="center"
+        >
+          <Stack fill anchor="center">
+            <Box
+              style={{
+                minHeight: '100vh',
+                opacity: !this.state.enlightened ? 0.25 : 1,
+                filter: `brightness(${!this.state.enlightened ? 50 : 100}%)`,
+                transition: 'opacity 0.3s linear, filter 0.3s linear',
+                transitionDelay: '0.65s'
+              }}
+              justify="center"
+              align="center"
+            >
+              <Box alignSelf="center" fill="horizontal" height="medium">
+                <Lines layout="horizontal" />
+              </Box>
+            </Box>
+            { this.state.enlightened &&
+              <AnswerHolder>
+                <Heading size="xlarge" textAlign="center" style={{ lineHeight: '10px' }}>
+                  {[4, 2].map((number, index) =>
+                    <ScaleUp key={`number-${index}`} delay={(index * 1) + 1.75} from="bottom">
+                      {number}
+                    </ScaleUp>)
+                  }
+                </Heading>
+              </AnswerHolder>
+            }
+            <TextHolder className={this.state.enlightened ? 'enlightened' : ''} pad="small" align="center">
+              <StyledHeading size="large" textAlign="center" style={{ lineHeight: 0.8 }}>
+                {wordArray.map((word, index) =>
+                  <ScaleUp key={index} delay={index/3} from="bottom">
+                    {word}
+                  </ScaleUp>)
+                }
+              </StyledHeading>
+              <Box direction="row">
+                <ScaleUp delay={2.2} from="top">
+                  <StyledButton onClick={() => {
+                      if (this.state.clickedOnce) return this.setState({ enlightened: true });
+                      return this.setState({ clickedOnce: true });
+                    }}
+                  >
+                    <Box
+                      background={{ color: 'brand' }}
+                      pad={{
+                        vertical: 'small',
+                        horizontal: 'large',
+                      }}
+                      round="large"
+                    >
+                      <Text
+                        weight="bold"
+                        color="purple"
+                        size="xlarge"
+                      >
+                        {this.state.clickedOnce
+                          ? 'are you sure?'
+                          : 'tell me!'
+                        }
+                      </Text>
+                    </Box>
+                  </StyledButton>
+                </ScaleUp>
+              </Box>
+            </TextHolder>
+          </Stack>
+        </Box>
+      </Grommet>
     );
   }
 }
