@@ -20,7 +20,7 @@ const ScaleUp = styled.span`
   padding-right: ${({ paddingRight }) => paddingRight || '36'}px;
   opacity: 0;
   transform: scale(0);
-  animation:  ${scaleUpAnim} 0.75s ease-out;
+  animation:  ${scaleUpAnim} ${({ duration }) => duration || '0.75'}s ease-out;
   animation-delay: ${({ delay }) => delay}s;
   animation-fill-mode: forwards;
   transform-origin: ${({ from }) => from};
@@ -121,9 +121,10 @@ class App extends Component {
                   {'the answer to life, the universe and everything.'.split(' ').map((number, index) =>
                     <ScaleUp
                       key={`number-${index}`}
-                      delay={(index * 0.2) + 3.5}
-                      from="bottom"
+                      delay={(index * 0.25) + 3.6}
+                      from="top"
                       paddingRight={12}
+                      duration={0.25}
                     >
                       {number}
                     </ScaleUp>)
