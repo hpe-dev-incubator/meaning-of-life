@@ -17,7 +17,7 @@ const scaleUpAnim = keyframes`
 
 const ScaleUp = styled.span`
   display: inline-block;
-  padding-right: 36px;
+  padding-right: ${({ paddingRight }) => paddingRight || '36'}px;
   opacity: 0;
   transform: scale(0);
   animation:  ${scaleUpAnim} 0.75s ease-out;
@@ -44,10 +44,12 @@ const AnswerHolder = styled(Box)`
 const StyledButton = styled(Button)``; // Styled components can target
 const StyledHeading = styled(Heading)``; // Styled components can target
 
-
 const TextHolder = styled(Box)`
   position: relative;
   min-width: 100vw;
+  max-width: 100vw;
+  max-height: 100vh;
+
   &.enlightened {
     ${StyledHeading} {
       animation:  ${dropOutAnim} 0.25s ease-out;
@@ -99,9 +101,30 @@ class App extends Component {
             </Box>
             { this.state.enlightened &&
               <AnswerHolder>
-                <Heading size="xlarge" textAlign="center" style={{ lineHeight: '10px' }}>
+                <Heading
+                  size="xlarge"
+                  textAlign="center"
+                  margin="none"
+                  style={{ lineHeight: '360px' }}
+                >
                   {[4, 2].map((number, index) =>
                     <ScaleUp key={`number-${index}`} delay={(index * 1) + 1.75} from="bottom">
+                      {number}
+                    </ScaleUp>)
+                  }
+                </Heading>
+                <Heading
+                  size="medium"
+                  textAlign="center"
+                  style={{ lineHeight: '0.9' }}
+                >
+                  {'the answer to life, the universe and everything.'.split(' ').map((number, index) =>
+                    <ScaleUp
+                      key={`number-${index}`}
+                      delay={(index * 0.2) + 3.5}
+                      from="bottom"
+                      paddingRight={12}
+                    >
                       {number}
                     </ScaleUp>)
                   }
