@@ -73,7 +73,7 @@ class App extends Component {
     }
   }
   render() {
-    const wordArray = 'what is the meaning of life?'.split(' ');
+    const wordArray = 'what is the answer to life, the universe and everything?'.split(' ');
     return (
       <Grommet theme={hpeDesign}  style={{ minHeight: '100vh' }}>
         <Box
