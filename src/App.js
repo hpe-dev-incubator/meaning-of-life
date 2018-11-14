@@ -118,7 +118,7 @@ class App extends Component {
                   textAlign="center"
                   style={{ lineHeight: '0.9' }}
                 >
-                  {'the answer to life, the universe and everything.'.split(' ').map((number, index) =>
+                  {'the answer to life, the universe and everything. Come on Said, EVERYONE here knows that --!!!!'.split(' ').map((number, index) =>
                     <ScaleUp
                       key={`number-${index}`}
                       delay={(index * 0.25) + 3.6}
