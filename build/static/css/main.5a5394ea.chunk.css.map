@@ -1,0 +1,1 @@
+{"version":3,"sources":["/Users/alexmejias/Projects/Work/HP/dev/meaning-of-life/src/index.css"],"names":[],"mappings":"AAAA,KACE,SAAU,AACV,UAAW,AACX,kBAA6B,CAC9B","file":"main.5a5394ea.chunk.css","sourcesContent":["body {\n  margin: 0;\n  padding: 0;\n  background: rgba(31,37,50,1);\n}\n"]}
